@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "466216623300",
+    "project_id": "bumdesa-finance",
+    "storage_bucket": "bumdesa-finance.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466216623300:android:60c64a0cf8775a19993d91",
+        "android_client_info": {
+          "package_name": "com.bumdesa.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIxCHqNLoAiCEe5LbjNvN4G2KD2H_6EIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
