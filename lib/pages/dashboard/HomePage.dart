@@ -100,6 +100,7 @@ class _HomePageState extends State<HomePage> {
         title: Text('Home', style: headerStyle(level: 3, dark: false)),
         centerTitle: true,
       ),
+      backgroundColor: backgroundColor,
       body: _isLoading
           ? const Center(
               child: CircularProgressIndicator(),
