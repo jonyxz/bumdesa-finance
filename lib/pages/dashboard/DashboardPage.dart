@@ -100,7 +100,11 @@ class _DashboardFull extends State<DashboardFull> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Text('Bumdesa Finance', style: headerStyle(level: 2)),
+        title: Text(
+          'Bumdesa Finance',
+          style: headerStyle(level: 2, dark: false)
+              .copyWith(color: accentColor), // Mengatur warna teks header
+        ),
         centerTitle: true,
       ),
       bottomNavigationBar: BottomNavigationBar(

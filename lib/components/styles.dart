@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 var primaryColor = const Color(0xFF578E7E);
-var secondaryColor = const Color(0xFFF5ECD5);
+var secondaryColor = const Color.fromARGB(255, 249, 248, 244);
 var accentColor = const Color(0xFF3D3D3D);
 var backgroundColor = const Color(0xFFFFFAEC);
 var warningColor = const Color(0xFFFFE4B2);
-var dangerColor = const Color(0xFFFFC1C1);
-var successColor = const Color(0xFF578E7E);
+var dangerColor = const Color.fromARGB(255, 248, 108, 108);
+var successColor = const Color.fromARGB(255, 87, 155, 98);
 var greyColor = const Color(0xFF3D3D3D);
 
 TextStyle headerStyle({int level = 1, bool dark = true}) {
