@@ -44,11 +44,12 @@ class _MyLaporanState extends State<MyLaporan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: backgroundColor,
         appBar: AppBar(
-          backgroundColor: primaryColor,
           title:
               Text('Transaksi Saya', style: headerStyle(level: 3, dark: false)),
           centerTitle: true,
+          backgroundColor: primaryColor,
         ),
         body: Center(child: Text('Tidak ada transaksi')));
   }

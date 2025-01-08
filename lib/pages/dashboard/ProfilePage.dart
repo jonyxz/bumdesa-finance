@@ -62,7 +62,8 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: const Text('Profile Page'),
+        title: Text('Profil Saya', style: headerStyle(level: 3, dark: false)),
+        centerTitle: true,
         backgroundColor: primaryColor,
       ),
       body: Padding(

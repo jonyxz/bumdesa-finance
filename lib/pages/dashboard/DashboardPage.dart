@@ -6,7 +6,7 @@ import 'package:bumdesa_finance/models/akun.dart';
 import 'package:bumdesa_finance/pages/dashboard/TransaksiPage.dart'
     as transaksi;
 import 'package:bumdesa_finance/pages/dashboard/ProfilePage.dart' as profil;
-import 'package:bumdesa_finance/pages/my_laporan.dart' as my_laporan;
+import 'package:bumdesa_finance/pages/dashboard/my_laporan.dart' as my_laporan;
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -93,8 +93,8 @@ class _DashboardFull extends State<DashboardFull> {
   @override
   Widget build(BuildContext context) {
     pages = <Widget>[
-      transaksi.TransaksiPage(akun: akun),
       my_laporan.MyLaporan(akun: akun),
+      transaksi.TransaksiPage(akun: akun),
       profil.ProfilePage(akun: akun),
     ];
     return Scaffold(
@@ -117,11 +117,11 @@ class _DashboardFull extends State<DashboardFull> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.book_outlined),
-            label: 'History',
+            label: 'Transaksi',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outlined),
-            label: 'Profile',
+            label: 'Profil',
           ),
         ],
       ),

@@ -3,8 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bumdesa_finance/models/transaksi.dart';
 import 'package:bumdesa_finance/models/akun.dart';
 import 'package:bumdesa_finance/components/list_item.dart';
-
-import '../../components/styles.dart';
+import 'package:bumdesa_finance/components/styles.dart';
 
 class TransaksiPage extends StatefulWidget {
   final Akun akun;
@@ -51,20 +50,30 @@ class _TransaksiPageState extends State<TransaksiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: Text('Daftar Transaksi'),
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text('Daftar Transaksi',
+              style: headerStyle(level: 3, dark: false)),
+        ),
+        centerTitle: true,
+        backgroundColor: primaryColor,
       ),
-      body: ListView.builder(
-        itemCount: transaksiList.length,
-        itemBuilder: (context, index) {
-          return ListItem(
-            transaksi: transaksiList[index],
-            akun: widget.akun,
-            isUserTransaction:
-                transaksiList[index].createdBy == widget.akun.uid,
-            onDelete: () => deleteTransaksi(transaksiList[index].id),
-          );
-        },
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: ListView.builder(
+          itemCount: transaksiList.length,
+          itemBuilder: (context, index) {
+            return ListItem(
+              transaksi: transaksiList[index],
+              akun: widget.akun,
+              isUserTransaction:
+                  transaksiList[index].createdBy == widget.akun.uid,
+              onDelete: () => deleteTransaksi(transaksiList[index].id),
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
@@ -72,6 +81,10 @@ class _TransaksiPageState extends State<TransaksiPage> {
         onPressed: () {
           Navigator.pushNamed(context, '/add', arguments: {
             'akun': widget.akun,
+          }).then((result) {
+            if (result != null && result is Transaksi) {
+              addTransaksi(result);
+            }
           });
         },
       ),
