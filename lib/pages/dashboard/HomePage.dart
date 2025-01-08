@@ -100,51 +100,98 @@ class _HomePageState extends State<HomePage> {
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    'Saldo Terkini',
-                    style: headerStyle(level: 3),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Rp ${saldoTerkini.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: primaryColor,
+                  Card(
+                    color: secondaryColor,
+                    elevation: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20.0, horizontal: 78.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Saldo Terkini',
+                            style: headerStyle(level: 3),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Rp ${saldoTerkini.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: primaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Total Kredit',
-                    style: headerStyle(level: 3),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Card(
+                          color: secondaryColor,
+                          elevation: 4,
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Total Kredit',
+                                  style: headerStyle(level: 3),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Rp ${totalKredit.toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: dangerColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Card(
+                          color: secondaryColor,
+                          elevation: 4,
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Total Debet',
+                                  style: headerStyle(level: 3),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Rp ${totalDebet.toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: successColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Rp ${totalKredit.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: dangerColor,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Total Debet',
-                    style: headerStyle(level: 3),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Rp ${totalDebet.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: successColor,
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  // Tambahkan widget lain yang ingin ditampilkan di home
                 ],
               ),
             ),
