@@ -4,6 +4,7 @@ import 'package:bumdesa_finance/models/akun.dart';
 import 'package:bumdesa_finance/models/saldo.dart';
 import 'package:bumdesa_finance/models/transaksi.dart';
 import 'package:bumdesa_finance/components/styles.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   final Akun akun;
@@ -85,6 +86,12 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  String formatCurrency(double amount) {
+    final formatter =
+        NumberFormat.currency(locale: 'id_ID', symbol: '', decimalDigits: 0);
+    return formatter.format(amount);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,6 +109,37 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Container(
+                    padding: const EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                      color: primaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Selamat datang di Bumdesa Finance.',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Aplikasi untuk mengelola keuangan desa dengan mudah dan efisien.',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
                   Card(
                     color: secondaryColor,
                     elevation: 4,
@@ -118,7 +156,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            'Rp ${saldoTerkini.toStringAsFixed(2)}',
+                            'Rp ${formatCurrency(saldoTerkini)}',
                             style: TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
@@ -129,6 +167,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -139,21 +178,24 @@ class _HomePageState extends State<HomePage> {
                           margin: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 10),
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 20.0,
+                              horizontal: 20.0,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Total Kredit',
+                                  'Total Debet',
                                   style: headerStyle(level: 3),
                                 ),
                                 SizedBox(height: 10),
                                 Text(
-                                  'Rp ${totalKredit.toStringAsFixed(2)}',
+                                  'Rp ${formatCurrency(totalDebet)}',
                                   style: TextStyle(
-                                    fontSize: 24,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: dangerColor,
+                                    color: successColor,
                                   ),
                                 ),
                               ],
@@ -166,23 +208,26 @@ class _HomePageState extends State<HomePage> {
                           color: secondaryColor,
                           elevation: 4,
                           margin: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
+                            vertical: 10,
+                            horizontal: 10,
+                          ),
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 20.0, horizontal: 20.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Total Debet',
+                                  'Total Kredit',
                                   style: headerStyle(level: 3),
                                 ),
                                 SizedBox(height: 10),
                                 Text(
-                                  'Rp ${totalDebet.toStringAsFixed(2)}',
+                                  'Rp ${formatCurrency(totalKredit)}',
                                   style: TextStyle(
-                                    fontSize: 24,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: successColor,
+                                    color: dangerColor,
                                   ),
                                 ),
                               ],
