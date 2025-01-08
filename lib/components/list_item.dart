@@ -16,6 +16,12 @@ class ListItem extends StatelessWidget {
     required this.onDetail,
   });
 
+  String formatCurrency(double amount) {
+    final formatter =
+        NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0);
+    return formatter.format(amount);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -30,13 +36,26 @@ class ListItem extends StatelessWidget {
           color:
               transaksi.jenisTransaksi == 'Debet' ? successColor : dangerColor,
         ),
-        title: Text(
-          transaksi.label,
-          style: TextStyle(fontSize: 18, color: accentColor),
-        ),
-        subtitle: Text(
-          'Rp ${transaksi.jumlah.toStringAsFixed(2)}\n${DateFormat('dd MMM yyyy').format(transaksi.createdAt.toDate())}',
-          style: TextStyle(fontSize: 16, color: greyColor),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              formatCurrency(transaksi.jumlah),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: accentColor),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              transaksi.label,
+              style: TextStyle(fontSize: 14, color: greyColor),
+            ),
+            Text(
+              DateFormat('dd MMM yyyy').format(transaksi.createdAt.toDate()),
+              style: TextStyle(fontSize: 12, color: greyColor),
+            ),
+          ],
         ),
         trailing: IconButton(
           icon: Icon(Icons.menu, color: primaryColor),
