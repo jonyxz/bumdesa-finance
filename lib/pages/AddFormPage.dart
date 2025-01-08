@@ -5,6 +5,7 @@ import 'package:bumdesa_finance/components/styles.dart';
 import 'package:bumdesa_finance/models/transaksi.dart';
 import 'package:bumdesa_finance/models/akun.dart';
 import 'package:bumdesa_finance/models/saldo.dart';
+import 'package:intl/intl.dart';
 
 class AddFormPage extends StatefulWidget {
   const AddFormPage({super.key});
@@ -22,7 +23,7 @@ class _AddFormPageState extends State<AddFormPage> {
   String? jenisTransaksi;
   double? jumlah;
   String? deskripsi;
-  DateTime? tanggal;
+  DateTime? tanggal = DateTime.now();
 
   Future<void> saveTransaksi(Akun akun) async {
     if (_formKey.currentState!.validate()) {
@@ -31,15 +32,13 @@ class _AddFormPageState extends State<AddFormPage> {
       });
 
       try {
-        // Mendapatkan saldo terkini
         double saldoTerkini = await getSaldoTerkini();
 
-        // Menghitung saldo baru
         double saldoBaru;
         if (jenisTransaksi == 'Debet') {
-          saldoBaru = saldoTerkini + jumlah!; // Debet untuk pemasukan saldo
+          saldoBaru = saldoTerkini + jumlah!;
         } else {
-          saldoBaru = saldoTerkini - jumlah!; // Kredit untuk saldo keluar
+          saldoBaru = saldoTerkini - jumlah!;
         }
 
         // Menyimpan transaksi ke Firestore
@@ -55,7 +54,6 @@ class _AddFormPageState extends State<AddFormPage> {
 
         await _firestore.collection('transaksi').add(transaksi.toFirestore());
 
-        // Memperbarui saldo terkini
         await updateSaldo(saldoBaru);
 
         Navigator.pop(context);
@@ -76,7 +74,6 @@ class _AddFormPageState extends State<AddFormPage> {
     if (saldoDoc.exists) {
       return Saldo.fromFirestore(saldoDoc).saldo;
     } else {
-      // Jika dokumen saldo tidak ada, buat dokumen baru dengan saldo awal 0
       Saldo initialSaldo = Saldo(saldo: 0.0, updatedAt: Timestamp.now());
       await _firestore
           .collection('saldo_bumdesa')
@@ -118,7 +115,23 @@ class _AddFormPageState extends State<AddFormPage> {
                   child: Container(
                     margin: EdgeInsets.all(40),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            tanggal != null
+                                ? DateFormat('dd MMM yyyy, HH:mm')
+                                    .format(tanggal!)
+                                : '',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: primaryColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
                         DropdownButtonFormField<String>(
                           decoration:
                               InputDecoration(labelText: 'Tipe Transaksi'),
@@ -149,28 +162,6 @@ class _AddFormPageState extends State<AddFormPage> {
                               setState(() => deskripsi = value),
                           validator: (value) => value!.isEmpty
                               ? 'Deskripsi tidak boleh kosong'
-                              : null,
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(labelText: 'Tanggal'),
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: tanggal ?? DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2101),
-                            );
-                            if (pickedDate != null) {
-                              setState(() => tanggal = pickedDate);
-                            }
-                          },
-                          readOnly: true,
-                          controller: TextEditingController(
-                              text: tanggal != null
-                                  ? tanggal!.toLocal().toString().split(' ')[0]
-                                  : ''),
-                          validator: (value) => value!.isEmpty
-                              ? 'Tanggal tidak boleh kosong'
                               : null,
                         ),
                         SizedBox(height: 30),
