@@ -37,9 +37,9 @@ class _AddFormPageState extends State<AddFormPage> {
         // Menghitung saldo baru
         double saldoBaru;
         if (jenisTransaksi == 'Debet') {
-          saldoBaru = saldoTerkini - jumlah!;
+          saldoBaru = saldoTerkini + jumlah!; // Debet untuk pemasukan saldo
         } else {
-          saldoBaru = saldoTerkini + jumlah!;
+          saldoBaru = saldoTerkini - jumlah!; // Kredit untuk saldo keluar
         }
 
         // Menyimpan transaksi ke Firestore
@@ -116,16 +116,16 @@ class _AddFormPageState extends State<AddFormPage> {
                 child: Form(
                   key: _formKey,
                   child: Container(
-                    margin: const EdgeInsets.all(40),
+                    margin: EdgeInsets.all(40),
                     child: Column(
                       children: [
                         DropdownButtonFormField<String>(
-                          decoration: const InputDecoration(
-                              labelText: 'Tipe Transaksi'),
+                          decoration:
+                              InputDecoration(labelText: 'Tipe Transaksi'),
                           items: ['Debet', 'Kredit'].map((e) {
                             return DropdownMenuItem<String>(
-                              value: e,
                               child: Text(e),
+                              value: e,
                             );
                           }).toList(),
                           onChanged: (value) =>
@@ -135,8 +135,7 @@ class _AddFormPageState extends State<AddFormPage> {
                               : null,
                         ),
                         TextFormField(
-                          decoration:
-                              const InputDecoration(labelText: 'Jumlah'),
+                          decoration: InputDecoration(labelText: 'Jumlah'),
                           keyboardType: TextInputType.number,
                           onChanged: (value) =>
                               setState(() => jumlah = double.tryParse(value)),
@@ -145,8 +144,7 @@ class _AddFormPageState extends State<AddFormPage> {
                               : null,
                         ),
                         TextFormField(
-                          decoration:
-                              const InputDecoration(labelText: 'Deskripsi'),
+                          decoration: InputDecoration(labelText: 'Deskripsi'),
                           onChanged: (value) =>
                               setState(() => deskripsi = value),
                           validator: (value) => value!.isEmpty
@@ -154,8 +152,7 @@ class _AddFormPageState extends State<AddFormPage> {
                               : null,
                         ),
                         TextFormField(
-                          decoration:
-                              const InputDecoration(labelText: 'Tanggal'),
+                          decoration: InputDecoration(labelText: 'Tanggal'),
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
@@ -176,8 +173,8 @@ class _AddFormPageState extends State<AddFormPage> {
                               ? 'Tanggal tidak boleh kosong'
                               : null,
                         ),
-                        const SizedBox(height: 30),
-                        SizedBox(
+                        SizedBox(height: 30),
+                        Container(
                           width: double.infinity,
                           child: ElevatedButton(
                             style: buttonStyle,

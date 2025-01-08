@@ -43,11 +43,11 @@ class _ListItemState extends State<ListItem> {
       child: ListTile(
         leading: Icon(
           widget.transaksi.jenisTransaksi == 'Debet'
-              ? Icons.remove_circle
-              : Icons.add_circle,
+              ? Icons.add_circle
+              : Icons.remove_circle,
           color: widget.transaksi.jenisTransaksi == 'Debet'
-              ? Colors.red
-              : Colors.green,
+              ? Colors.green
+              : Colors.red,
         ),
         title: Text(
           widget.transaksi.label,
