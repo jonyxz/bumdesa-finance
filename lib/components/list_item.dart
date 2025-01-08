@@ -6,15 +6,13 @@ import 'package:intl/intl.dart';
 class ListItem extends StatelessWidget {
   final Transaksi transaksi;
   final Akun akun;
-  final bool isUserTransaction;
-  final VoidCallback onDelete;
+  final VoidCallback onDetail;
 
   const ListItem({
     super.key,
     required this.transaksi,
     required this.akun,
-    required this.isUserTransaction,
-    required this.onDelete,
+    required this.onDetail,
   });
 
   @override
@@ -38,12 +36,10 @@ class ListItem extends StatelessWidget {
           'Rp ${transaksi.jumlah.toStringAsFixed(2)}\n${DateFormat('dd MMM yyyy').format(transaksi.createdAt.toDate())}',
           style: TextStyle(fontSize: 16, color: Colors.black54),
         ),
-        trailing: isUserTransaction
-            ? IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
-                onPressed: onDelete,
-              )
-            : null,
+        trailing: IconButton(
+          icon: const Icon(Icons.info, color: Colors.blue),
+          onPressed: onDetail,
+        ),
       ),
     );
   }

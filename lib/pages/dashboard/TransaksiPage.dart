@@ -47,13 +47,18 @@ class _TransaksiPageState extends State<TransaksiPage> {
     });
   }
 
+  void showDetail(Transaksi transaksi) {
+    // Implementasi untuk menampilkan detail transaksi
+    Navigator.pushNamed(context, '/detail', arguments: transaksi);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Text('Daftar Transaksi',
               style: headerStyle(level: 3, dark: false)),
         ),
@@ -68,9 +73,7 @@ class _TransaksiPageState extends State<TransaksiPage> {
             return ListItem(
               transaksi: transaksiList[index],
               akun: widget.akun,
-              isUserTransaction:
-                  transaksiList[index].createdBy == widget.akun.uid,
-              onDelete: () => deleteTransaksi(transaksiList[index].id),
+              onDetail: () => showDetail(transaksiList[index]),
             );
           },
         ),
