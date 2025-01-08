@@ -21,22 +21,11 @@ class _TransaksiPageState extends State<TransaksiPage> {
   @override
   void initState() {
     super.initState();
-    getTransaksiList();
-  }
-
-  Future<void> getTransaksiList() async {
-    QuerySnapshot<Map<String, dynamic>> querySnapshot =
-        await _firestore.collection('transaksi').get();
-    setState(() {
-      transaksiList = querySnapshot.docs
-          .map((doc) => Transaksi.fromFirestore(doc))
-          .toList();
-    });
   }
 
   void addTransaksi(Transaksi transaksi) {
     setState(() {
-      transaksiList.add(transaksi);
+      transaksiList.insert(0, transaksi);
     });
   }
 
@@ -48,7 +37,6 @@ class _TransaksiPageState extends State<TransaksiPage> {
   }
 
   void showDetail(Transaksi transaksi) {
-    // Implementasi untuk menampilkan detail transaksi
     Navigator.pushNamed(context, '/detail', arguments: transaksi);
   }
 
@@ -67,13 +55,37 @@ class _TransaksiPageState extends State<TransaksiPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: ListView.builder(
-          itemCount: transaksiList.length,
-          itemBuilder: (context, index) {
-            return ListItem(
-              transaksi: transaksiList[index],
-              akun: widget.akun,
-              onDetail: () => showDetail(transaksiList[index]),
+        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: _firestore
+              .collection('transaksi')
+              .orderBy('created_at', descending: true)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            }
+
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return Center(child: Text('Tidak ada transaksi'));
+            }
+
+            transaksiList = snapshot.data!.docs
+                .map((doc) => Transaksi.fromFirestore(doc))
+                .toList();
+
+            return ListView.builder(
+              itemCount: transaksiList.length,
+              itemBuilder: (context, index) {
+                return ListItem(
+                  transaksi: transaksiList[index],
+                  akun: widget.akun,
+                  onDetail: () => showDetail(transaksiList[index]),
+                );
+              },
             );
           },
         ),
@@ -86,7 +98,10 @@ class _TransaksiPageState extends State<TransaksiPage> {
             'akun': widget.akun,
           }).then((result) {
             if (result != null && result is Transaksi) {
-              addTransaksi(result);
+              if (!transaksiList
+                  .any((transaksi) => transaksi.id == result.id)) {
+                addTransaksi(result);
+              }
             }
           });
         },
