@@ -1,39 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:bumdesa_finance/models/transaksi.dart';
 import 'package:bumdesa_finance/models/akun.dart';
-import 'package:bumdesa_finance/components/styles.dart';
+import 'package:intl/intl.dart';
 
-class ListItem extends StatefulWidget {
+class ListItem extends StatelessWidget {
   final Transaksi transaksi;
   final Akun akun;
   final bool isUserTransaction;
+  final VoidCallback onDelete;
 
   const ListItem({
     super.key,
     required this.transaksi,
     required this.akun,
     required this.isUserTransaction,
+    required this.onDelete,
   });
-
-  @override
-  State<ListItem> createState() => _ListItemState();
-}
-
-class _ListItemState extends State<ListItem> {
-  final _firestore = FirebaseFirestore.instance;
-
-  void deleteTransaksi() async {
-    try {
-      await _firestore
-          .collection('transaksi')
-          .doc(widget.transaksi.id)
-          .delete();
-    } catch (e) {
-      print('Error deleting transaction: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,25 +24,24 @@ class _ListItemState extends State<ListItem> {
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
       child: ListTile(
         leading: Icon(
-          widget.transaksi.jenisTransaksi == 'Debet'
+          transaksi.jenisTransaksi == 'Debet'
               ? Icons.add_circle
               : Icons.remove_circle,
-          color: widget.transaksi.jenisTransaksi == 'Debet'
-              ? Colors.green
-              : Colors.red,
+          color:
+              transaksi.jenisTransaksi == 'Debet' ? Colors.green : Colors.red,
         ),
         title: Text(
-          widget.transaksi.label,
-          style: TextStyle(fontSize: 18, color: accentColor),
+          transaksi.label,
+          style: TextStyle(fontSize: 18, color: Colors.black),
         ),
         subtitle: Text(
-          'Rp ${widget.transaksi.jumlah.toStringAsFixed(2)}\n${DateFormat('dd MMM yyyy').format(widget.transaksi.createdAt.toDate())}',
-          style: TextStyle(fontSize: 16, color: accentColor),
+          'Rp ${transaksi.jumlah.toStringAsFixed(2)}\n${DateFormat('dd MMM yyyy').format(transaksi.createdAt.toDate())}',
+          style: TextStyle(fontSize: 16, color: Colors.black54),
         ),
-        trailing: widget.isUserTransaction
+        trailing: isUserTransaction
             ? IconButton(
                 icon: const Icon(Icons.delete, color: Colors.red),
-                onPressed: deleteTransaksi,
+                onPressed: onDelete,
               )
             : null,
       ),

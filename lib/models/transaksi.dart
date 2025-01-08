@@ -2,20 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Transaksi {
   final String id;
-  final String userId;
   final String jenisTransaksi;
   final double jumlah;
   final double saldoTerkini;
   final String label;
+  final String createdBy;
   final Timestamp createdAt;
 
   Transaksi({
     required this.id,
-    required this.userId,
     required this.jenisTransaksi,
     required this.jumlah,
     required this.saldoTerkini,
     required this.label,
+    required this.createdBy,
     required this.createdAt,
   });
 
@@ -24,11 +24,11 @@ class Transaksi {
     Map<String, dynamic> data = doc.data()!;
     return Transaksi(
       id: doc.id,
-      userId: data['user_id'],
       jenisTransaksi: data['jenis_transaksi'],
       jumlah: data['jumlah'].toDouble(),
       saldoTerkini: data['saldo_terkini'].toDouble(),
       label: data['label'],
+      createdBy: data['created_by'],
       createdAt: data['created_at'],
     );
   }
@@ -36,11 +36,11 @@ class Transaksi {
   // Method to convert a Transaksi object to a Firestore document
   Map<String, dynamic> toFirestore() {
     return {
-      'user_id': userId,
       'jenis_transaksi': jenisTransaksi,
       'jumlah': jumlah,
       'saldo_terkini': saldoTerkini,
       'label': label,
+      'created_by': createdBy,
       'created_at': createdAt,
     };
   }

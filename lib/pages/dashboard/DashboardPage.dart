@@ -3,8 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bumdesa_finance/components/styles.dart';
 import 'package:bumdesa_finance/models/akun.dart';
-import 'package:bumdesa_finance/pages/AllTransaksi.dart' as all_laporan;
-import 'package:bumdesa_finance/pages/dashboard/ProfilePage.dart' as profile;
+import 'package:bumdesa_finance/pages/dashboard/TransaksiPage.dart'
+    as transaksi;
+import 'package:bumdesa_finance/pages/dashboard/ProfilePage.dart' as profil;
 import 'package:bumdesa_finance/pages/my_laporan.dart' as my_laporan;
 
 class DashboardPage extends StatelessWidget {
@@ -92,24 +93,15 @@ class _DashboardFull extends State<DashboardFull> {
   @override
   Widget build(BuildContext context) {
     pages = <Widget>[
-      all_laporan.AllTransaksi(akun: akun),
+      transaksi.TransaksiPage(akun: akun),
       my_laporan.MyLaporan(akun: akun),
-      profile.ProfilePage(akun: akun),
+      profil.ProfilePage(akun: akun),
     ];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
         title: Text('Bumdesa Finance', style: headerStyle(level: 2)),
         centerTitle: true,
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: primaryColor,
-        child: const Icon(Icons.add, size: 35, color: Colors.white),
-        onPressed: () {
-          Navigator.pushNamed(context, '/add', arguments: {
-            'akun': akun,
-          });
-        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: primaryColor,

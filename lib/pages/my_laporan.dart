@@ -44,27 +44,12 @@ class _MyLaporanState extends State<MyLaporan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        title:
-            Text('Transaksi Saya', style: headerStyle(level: 3, dark: false)),
-        centerTitle: true,
-      ),
-      body: SafeArea(
-        child: listTransaksi.isEmpty
-            ? const Center(child: Text('Tidak ada transaksi'))
-            : ListView.builder(
-                itemCount: listTransaksi.length,
-                itemBuilder: (context, index) {
-                  return ListItem(
-                    transaksi: listTransaksi[index],
-                    akun: widget.akun,
-                    isUserTransaction:
-                        listTransaksi[index].userId == widget.akun.uid,
-                  );
-                },
-              ),
-      ),
-    );
+        appBar: AppBar(
+          backgroundColor: primaryColor,
+          title:
+              Text('Transaksi Saya', style: headerStyle(level: 3, dark: false)),
+          centerTitle: true,
+        ),
+        body: Center(child: Text('Tidak ada transaksi')));
   }
 }

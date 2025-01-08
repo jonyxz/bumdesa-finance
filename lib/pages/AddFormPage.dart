@@ -23,7 +23,7 @@ class _AddFormPageState extends State<AddFormPage> {
   String? jenisTransaksi;
   double? jumlah;
   String? deskripsi;
-  DateTime? tanggal = DateTime.now();
+  DateTime? tanggal = DateTime.now(); // Mengisi tanggal secara otomatis
 
   Future<void> saveTransaksi(Akun akun) async {
     if (_formKey.currentState!.validate()) {
@@ -32,8 +32,24 @@ class _AddFormPageState extends State<AddFormPage> {
       });
 
       try {
+        // Mendapatkan pengguna yang sedang login
+        User? user = _auth.currentUser;
+        if (user == null) {
+          throw Exception('User not logged in');
+        }
+
+        // Mendapatkan nama pengguna dari Firestore
+        DocumentSnapshot<Map<String, dynamic>> userDoc =
+            await _firestore.collection('users').doc(user.uid).get();
+        if (!userDoc.exists) {
+          throw Exception('User not found');
+        }
+        String userName = userDoc.data()!['nama'];
+
+        // Mendapatkan saldo terkini
         double saldoTerkini = await getSaldoTerkini();
 
+        // Menghitung saldo baru
         double saldoBaru;
         if (jenisTransaksi == 'Debet') {
           saldoBaru = saldoTerkini + jumlah!;
@@ -44,7 +60,7 @@ class _AddFormPageState extends State<AddFormPage> {
         // Menyimpan transaksi ke Firestore
         Transaksi transaksi = Transaksi(
           id: '',
-          userId: akun.uid,
+          createdBy: userName, // Mengisi createdBy dengan nama pengguna
           jenisTransaksi: jenisTransaksi!,
           jumlah: jumlah!,
           saldoTerkini: saldoBaru,
@@ -54,9 +70,11 @@ class _AddFormPageState extends State<AddFormPage> {
 
         await _firestore.collection('transaksi').add(transaksi.toFirestore());
 
+        // Memperbarui saldo terkini
         await updateSaldo(saldoBaru);
 
-        Navigator.pop(context);
+        Navigator.pop(context,
+            transaksi); // Mengembalikan transaksi yang baru ditambahkan
       } catch (e) {
         print('Error: $e');
       } finally {
@@ -74,6 +92,7 @@ class _AddFormPageState extends State<AddFormPage> {
     if (saldoDoc.exists) {
       return Saldo.fromFirestore(saldoDoc).saldo;
     } else {
+      // Jika dokumen saldo tidak ada, buat dokumen baru dengan saldo awal 0
       Saldo initialSaldo = Saldo(saldo: 0.0, updatedAt: Timestamp.now());
       await _firestore
           .collection('saldo_bumdesa')
