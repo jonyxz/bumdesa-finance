@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:bumdesa_finance/components/styles.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -19,6 +20,7 @@ class SplashFull extends StatefulWidget {
 
 class _SplashPage extends State<SplashFull> {
   final _auth = FirebaseAuth.instance;
+
   @override
   void initState() {
     super.initState();
@@ -26,8 +28,7 @@ class _SplashPage extends State<SplashFull> {
 
     if (user != null) {
       Future.delayed(Duration.zero, () {
-        // buat dashboard terlebih dahulu, lalu hapus komen line code dibawah ini
-        //  Navigator.pushReplacementNamed(context, '/dashboard');
+        Navigator.pushReplacementNamed(context, '/dashboard');
       });
     } else {
       Future.delayed(Duration.zero, () {
@@ -41,11 +42,16 @@ class _SplashPage extends State<SplashFull> {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        home: Scaffold(
-      body: Center(
-        child: Text('Welcome to Bumdesa Finance'),
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: backgroundColor,
+        body: Center(
+          child: Text(
+            'Welcome to Bumdesa Finance',
+            style: headerStyle(level: 2, dark: true),
+          ),
+        ),
       ),
-    ));
+    );
   }
 }
