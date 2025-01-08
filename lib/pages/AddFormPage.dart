@@ -117,11 +117,11 @@ class _AddFormPageState extends State<AddFormPage> {
     final Akun akun = arguments['akun'];
 
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: primaryColor,
-        title:
-            Text('Tambah Transaksi', style: headerStyle(level: 3, dark: false)),
+        title: Text('Profil Saya', style: headerStyle(level: 3, dark: false)),
         centerTitle: true,
+        backgroundColor: primaryColor,
       ),
       body: SafeArea(
         child: _isLoading
