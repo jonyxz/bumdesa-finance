@@ -1,8 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bumdesa_finance/components/styles.dart';
 import 'package:bumdesa_finance/models/akun.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bumdesa_finance/services/LocalStorageService.dart';
 
 class ProfilePage extends StatefulWidget {
   final Akun akun;
@@ -31,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
       if (user != null) {
         var userDoc = await FirebaseFirestore.instance
             .collection('users')
-            .doc(user.uid) // Menggunakan UID pengguna yang sedang login
+            .doc(user.uid)
             .get();
         if (userDoc.exists) {
           var userData = userDoc.data();
@@ -53,6 +54,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void keluar(BuildContext context) async {
     await _auth.signOut();
+    final localStorageService = LocalStorageService();
+    await localStorageService.clearUserData();
     Navigator.pushNamedAndRemoveUntil(
         context, '/login', ModalRoute.withName('/login'));
   }

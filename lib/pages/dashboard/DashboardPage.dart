@@ -100,7 +100,7 @@ class _DashboardPageState extends State<DashboardPage> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         title: Text('Bumdes Finance',
-            style: headerStyle(level: 3, dark: false)
+            style: headerStyle(level: 1, dark: false)
                 .copyWith(color: accentColor)),
         centerTitle: true,
       ),
