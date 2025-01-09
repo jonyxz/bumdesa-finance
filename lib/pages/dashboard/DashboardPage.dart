@@ -1,35 +1,24 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:bumdesa_finance/components/styles.dart';
 import 'package:bumdesa_finance/models/akun.dart';
-import 'package:bumdesa_finance/pages/dashboard/TransaksiPage.dart'
-    as transaksi;
-import 'package:bumdesa_finance/pages/dashboard/ProfilePage.dart' as profil;
-import 'package:bumdesa_finance/pages/dashboard/HomePage.dart' as home;
+import 'package:bumdesa_finance/components/styles.dart';
+import 'package:bumdesa_finance/pages/dashboard/HomePage.dart';
+import 'package:bumdesa_finance/pages/dashboard/TransaksiPage.dart';
+import 'package:bumdesa_finance/pages/dashboard/ProfilePage.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const DashboardFull();
-  }
+  _DashboardPageState createState() => _DashboardPageState();
 }
 
-class DashboardFull extends StatefulWidget {
-  const DashboardFull({super.key});
-
-  @override
-  State<StatefulWidget> createState() => _DashboardFull();
-}
-
-class _DashboardFull extends State<DashboardFull> {
-  int _selectedIndex = 0;
-  List<Widget> pages = [];
-
+class _DashboardPageState extends State<DashboardPage> {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
+  int _selectedIndex = 0;
+  List<Widget> pages = [];
 
   Akun akun = Akun(
     uid: '',
@@ -42,7 +31,13 @@ class _DashboardFull extends State<DashboardFull> {
 
   bool _isLoading = false;
 
-  void getAkun() async {
+  @override
+  void initState() {
+    super.initState();
+    getAkun();
+  }
+
+  Future<void> getAkun() async {
     setState(() {
       _isLoading = true;
     });
@@ -56,25 +51,34 @@ class _DashboardFull extends State<DashboardFull> {
       if (querySnapshot.docs.isNotEmpty) {
         var userData = querySnapshot.docs.first.data();
 
-        setState(() {
-          akun = Akun(
-            uid: userData['uid'],
-            nama: userData['nama'],
-            noHP: userData['noHP'],
-            email: userData['email'],
-            docId: userData['docId'],
-            role: userData['role'],
-          );
-        });
+        if (mounted) {
+          setState(() {
+            akun = Akun(
+              uid: userData['uid'],
+              nama: userData['nama'],
+              noHP: userData['noHP'],
+              email: userData['email'],
+              docId: userData['docId'],
+              role: userData['role'],
+            );
+            _isLoading = false;
+          });
+        }
       }
     } catch (e) {
       final snackbar = SnackBar(content: Text(e.toString()));
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        }
+      });
       print(e);
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -85,38 +89,30 @@ class _DashboardFull extends State<DashboardFull> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    getAkun();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    pages = <Widget>[
-      home.HomePage(akun: akun),
-      transaksi.TransaksiPage(akun: akun),
-      profil.ProfilePage(akun: akun),
+    pages = [
+      HomePage(akun: akun),
+      TransaksiPage(akun: akun),
+      ProfilePage(akun: akun),
     ];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Text(
-          'Bumdesa Finance',
-          style: headerStyle(level: 2, dark: false)
-              .copyWith(color: accentColor), // Mengatur warna teks header
-        ),
+        title: Text('Bumdes Finance',
+            style: headerStyle(level: 3, dark: false)
+                .copyWith(color: accentColor)),
         centerTitle: true,
       ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: primaryColor,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: Colors.white,
-        selectedFontSize: 16,
-        unselectedItemColor: Colors.grey[800],
+        unselectedItemColor: accentColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard_outlined),
+            icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
@@ -124,16 +120,14 @@ class _DashboardFull extends State<DashboardFull> {
             label: 'Transaksi',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outlined),
-            label: 'Profil',
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
         ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.white,
+        onTap: _onItemTapped,
       ),
-      body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : pages.elementAt(_selectedIndex),
     );
   }
 }
