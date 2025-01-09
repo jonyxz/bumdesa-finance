@@ -127,15 +127,52 @@ class _HomePageState extends State<HomePage> {
                           ),
                           textAlign: TextAlign.center,
                         ),
+                        Divider(color: primaryColor),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Text(
+                              'Nama: ',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: primaryColor,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                'BUMDes Sejahtera Randugunting',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: primaryColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                         SizedBox(height: 10),
-                        Text(
-                          'Aplikasi untuk mengelola keuangan desa dengan mudah dan efisien.',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: primaryColor,
-                          ),
-                          textAlign: TextAlign.center,
+                        Row(
+                          children: [
+                            Text(
+                              'Lokasi: ',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: primaryColor,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                'Desa Randugunting, Kec Bergas',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: primaryColor,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
