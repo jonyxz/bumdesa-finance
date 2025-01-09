@@ -50,16 +50,6 @@ class DetailPage extends StatelessWidget {
         title:
             Text('Detail Transaksi', style: headerStyle(level: 3, dark: false)),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.edit, color: Colors.white),
-            onPressed: () => _updateTransaksi(context),
-          ),
-          IconButton(
-            icon: Icon(Icons.delete, color: Colors.white),
-            onPressed: () => _deleteTransaksi(context),
-          ),
-        ],
       ),
       backgroundColor: backgroundColor,
       body: Padding(
@@ -87,7 +77,7 @@ class DetailPage extends StatelessWidget {
             const SizedBox(height: 20),
             Center(
               child: Container(
-                width: 350, // Ukuran lebih besar untuk Card detail
+                width: 350,
                 child: Card(
                   color: secondaryColor,
                   shape: RoundedRectangleBorder(
@@ -101,7 +91,7 @@ class DetailPage extends StatelessWidget {
                       children: [
                         const SizedBox(height: 20),
                         Padding(
-                          padding: const EdgeInsets.only(left: 25.0),
+                          padding: const EdgeInsets.only(left: 20.0),
                           child: Text(
                             transaksi.jenisTransaksi,
                             style: TextStyle(
@@ -150,6 +140,33 @@ class DetailPage extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: warningColor,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                  ),
+                  icon: Icon(Icons.edit, color: accentColor),
+                  label: Text('Edit', style: TextStyle(color: accentColor)),
+                  onPressed: () => _updateTransaksi(context),
+                ),
+                const SizedBox(width: 20),
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: dangerColor,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                  ),
+                  icon: Icon(Icons.delete, color: accentColor),
+                  label: Text('Hapus', style: TextStyle(color: accentColor)),
+                  onPressed: () => _deleteTransaksi(context),
+                ),
+              ],
             ),
           ],
         ),
