@@ -61,6 +61,7 @@ class DetailPage extends StatelessWidget {
           ),
         ],
       ),
+      backgroundColor: backgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -68,51 +69,87 @@ class DetailPage extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topRight,
-              child: Text(
-                DateFormat('dd MMM yyyy, HH:mm')
-                    .format(transaksi.createdAt.toDate()),
-                style: TextStyle(fontSize: 16, color: accentColor),
+              child: Card(
+                color: primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    DateFormat('dd MMM yyyy, HH:mm')
+                        .format(transaksi.createdAt.toDate()),
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 20),
-            Text(
-              'Jenis Transaksi:',
-              style: headerStyle(level: 4),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              transaksi.jenisTransaksi,
-              style: TextStyle(fontSize: 18, color: accentColor),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Jumlah:',
-              style: headerStyle(level: 4),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              'Rp ${transaksi.jumlah.toStringAsFixed(2)}',
-              style: TextStyle(fontSize: 18, color: accentColor),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Deskripsi:',
-              style: headerStyle(level: 4),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              transaksi.label,
-              style: TextStyle(fontSize: 18, color: accentColor),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Created By:',
-              style: headerStyle(level: 4),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              transaksi.createdBy,
-              style: TextStyle(fontSize: 18, color: accentColor),
+            Center(
+              child: Container(
+                width: 350, // Ukuran lebih besar untuk Card detail
+                child: Card(
+                  color: secondaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 25.0),
+                          child: Text(
+                            transaksi.jenisTransaksi,
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: transaksi.jenisTransaksi == 'Debet'
+                                  ? Colors.green
+                                  : Colors.red,
+                            ),
+                          ),
+                        ),
+                        Divider(color: accentColor),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Jumlah:',
+                          style: headerStyle(level: 4),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          'Rp ${transaksi.jumlah.toStringAsFixed(2)}',
+                          style: TextStyle(fontSize: 18, color: accentColor),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Deskripsi:',
+                          style: headerStyle(level: 4),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          transaksi.label,
+                          style: TextStyle(fontSize: 18, color: accentColor),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Created By:',
+                          style: headerStyle(level: 4),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          transaksi.createdBy,
+                          style: TextStyle(fontSize: 18, color: accentColor),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
