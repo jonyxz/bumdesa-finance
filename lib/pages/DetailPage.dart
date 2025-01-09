@@ -66,6 +66,15 @@ class DetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: Text(
+                DateFormat('dd MMM yyyy, HH:mm')
+                    .format(transaksi.createdAt.toDate()),
+                style: TextStyle(fontSize: 16, color: accentColor),
+              ),
+            ),
+            const SizedBox(height: 20),
             Text(
               'Jenis Transaksi:',
               style: headerStyle(level: 4),
@@ -97,23 +106,12 @@ class DetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              'Tanggal:',
+              'Created By:',
               style: headerStyle(level: 4),
             ),
             const SizedBox(height: 5),
             Text(
-              DateFormat('dd MMM yyyy, HH:mm')
-                  .format(transaksi.createdAt.toDate()),
-              style: TextStyle(fontSize: 18, color: accentColor),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Saldo Terkini:',
-              style: headerStyle(level: 4),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              'Rp ${transaksi.saldoTerkini.toStringAsFixed(2)}',
+              transaksi.createdBy,
               style: TextStyle(fontSize: 18, color: accentColor),
             ),
           ],
