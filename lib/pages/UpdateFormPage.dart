@@ -86,11 +86,12 @@ class _UpdateFormPageState extends State<UpdateFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: primaryColor,
         title:
             Text('Update Transaksi', style: headerStyle(level: 3, dark: false)),
         centerTitle: true,
+        backgroundColor: primaryColor,
       ),
       body: SafeArea(
         child: _isLoading
