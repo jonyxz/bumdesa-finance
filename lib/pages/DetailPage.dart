@@ -38,6 +38,42 @@ class DetailPage extends StatelessWidget {
     }
   }
 
+  Future<void> _confirmDelete(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: backgroundColor,
+          title: Text('Konfirmasi Hapus', style: headerStyle(level: 3)),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Apakah Anda yakin ingin menghapus transaksi ini?',
+                    style: bodyStyle(dark: true)),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Batal', style: TextStyle(color: accentColor)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Hapus', style: TextStyle(color: dangerColor)),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteTransaksi(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _updateTransaksi(BuildContext context) async {
     Navigator.pushNamed(context, '/update', arguments: transaksi);
   }
@@ -126,7 +162,7 @@ class DetailPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          'Created By:',
+                          'Dibuat Oleh:',
                           style: headerStyle(level: 4),
                         ),
                         const SizedBox(height: 5),
@@ -151,8 +187,8 @@ class DetailPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
                   ),
-                  icon: Icon(Icons.edit, color: accentColor),
-                  label: Text('Edit', style: TextStyle(color: accentColor)),
+                  icon: Icon(Icons.edit, color: Colors.black),
+                  label: Text('Edit', style: TextStyle(color: Colors.black)),
                   onPressed: () => _updateTransaksi(context),
                 ),
                 const SizedBox(width: 20),
@@ -162,9 +198,9 @@ class DetailPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
                   ),
-                  icon: Icon(Icons.delete, color: accentColor),
-                  label: Text('Hapus', style: TextStyle(color: accentColor)),
-                  onPressed: () => _deleteTransaksi(context),
+                  icon: Icon(Icons.delete, color: Colors.white),
+                  label: Text('Hapus', style: TextStyle(color: Colors.white)),
+                  onPressed: () => _confirmDelete(context),
                 ),
               ],
             ),
