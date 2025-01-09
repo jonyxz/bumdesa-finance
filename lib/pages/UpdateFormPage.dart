@@ -31,6 +31,12 @@ class _UpdateFormPageState extends State<UpdateFormPage> {
     tanggal = widget.transaksi.createdAt.toDate();
   }
 
+  String formatRupiah(double value) {
+    final formatCurrency =
+        NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0);
+    return formatCurrency.format(value);
+  }
+
   Future<void> updateTransaksi() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -72,7 +78,8 @@ class _UpdateFormPageState extends State<UpdateFormPage> {
             .doc('current_saldo')
             .update({'saldo': saldoTerkini});
 
-        Navigator.pop(context);
+        Navigator.popUntil(
+            context, ModalRoute.withName('/dashboard')); // Kembali ke dashboard
       } catch (e) {
         print('Error: $e');
       } finally {
@@ -137,16 +144,35 @@ class _UpdateFormPageState extends State<UpdateFormPage> {
                               ? 'Tipe transaksi tidak boleh kosong'
                               : null,
                         ),
-                        TextFormField(
-                          decoration: InputDecoration(labelText: 'Jumlah'),
-                          keyboardType: TextInputType.number,
-                          initialValue: jumlah?.toString(),
-                          onChanged: (value) =>
-                              setState(() => jumlah = double.tryParse(value)),
-                          validator: (value) => value!.isEmpty
-                              ? 'Jumlah tidak boleh kosong'
-                              : null,
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                decoration:
+                                    InputDecoration(labelText: 'Jumlah'),
+                                keyboardType: TextInputType.number,
+                                initialValue: jumlah?.toString(),
+                                onChanged: (value) => setState(
+                                    () => jumlah = double.tryParse(value)),
+                                validator: (value) => value!.isEmpty
+                                    ? 'Jumlah tidak boleh kosong'
+                                    : null,
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              jumlah != null ? formatRupiah(jumlah!) : '',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: jenisTransaksi == 'Debet'
+                                    ? primaryColor
+                                    : dangerColor,
+                              ),
+                            ),
+                          ],
                         ),
+                        SizedBox(height: 10),
                         TextFormField(
                           decoration: InputDecoration(labelText: 'Deskripsi'),
                           initialValue: deskripsi,
@@ -160,12 +186,14 @@ class _UpdateFormPageState extends State<UpdateFormPage> {
                         Container(
                           width: double.infinity,
                           child: ElevatedButton(
-                            style: buttonStyle,
+                            style: buttonStyleV2,
                             onPressed: updateTransaksi,
-                            child: Text('Update',
-                                style: headerStyle(level: 3, dark: false)),
+                            child: Text(
+                              'Update',
+                              style: headerStyle(level: 3, dark: false),
+                            ),
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),

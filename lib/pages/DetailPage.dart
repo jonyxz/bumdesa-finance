@@ -187,8 +187,8 @@ class DetailPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
                   ),
-                  icon: Icon(Icons.edit, color: Colors.black),
-                  label: Text('Edit', style: TextStyle(color: Colors.black)),
+                  icon: Icon(Icons.edit, color: Colors.white),
+                  label: Text('Edit', style: TextStyle(color: Colors.white)),
                   onPressed: () => _updateTransaksi(context),
                 ),
                 const SizedBox(width: 20),
