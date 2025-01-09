@@ -38,6 +38,18 @@ class _UpdateFormPageState extends State<UpdateFormPage> {
       });
 
       try {
+        DocumentSnapshot<Map<String, dynamic>> saldoDoc = await _firestore
+            .collection('saldo_bumdesa')
+            .doc('current_saldo')
+            .get();
+        double saldoTerkini = saldoDoc.data()!['saldo'];
+
+        if (widget.transaksi.jenisTransaksi == 'Kredit') {
+          saldoTerkini += widget.transaksi.jumlah;
+        } else if (widget.transaksi.jenisTransaksi == 'Debet') {
+          saldoTerkini -= widget.transaksi.jumlah;
+        }
+
         // Mengupdate transaksi di Firestore
         await _firestore
             .collection('transaksi')
@@ -48,14 +60,6 @@ class _UpdateFormPageState extends State<UpdateFormPage> {
           'label': deskripsi,
           'created_at': Timestamp.fromDate(tanggal!),
         });
-
-        // Mengupdate saldo terkini
-        double saldoTerkini = widget.transaksi.saldoTerkini;
-        if (widget.transaksi.jenisTransaksi == 'Kredit') {
-          saldoTerkini += widget.transaksi.jumlah;
-        } else if (widget.transaksi.jenisTransaksi == 'Debet') {
-          saldoTerkini -= widget.transaksi.jumlah;
-        }
 
         if (jenisTransaksi == 'Kredit') {
           saldoTerkini -= jumlah!;

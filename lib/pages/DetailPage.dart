@@ -13,17 +13,14 @@ class DetailPage extends StatelessWidget {
     final _firestore = FirebaseFirestore.instance;
 
     try {
-      // Menghapus transaksi dari Firestore
       await _firestore.collection('transaksi').doc(transaksi.id).delete();
 
-      // Mendapatkan saldo terkini
       DocumentSnapshot<Map<String, dynamic>> saldoDoc = await _firestore
           .collection('saldo_bumdesa')
           .doc('current_saldo')
           .get();
       double saldoTerkini = saldoDoc.data()!['saldo'];
 
-      // Mengupdate saldo terkini
       if (transaksi.jenisTransaksi == 'Kredit') {
         saldoTerkini += transaksi.jumlah;
       } else if (transaksi.jenisTransaksi == 'Debet') {
@@ -42,7 +39,6 @@ class DetailPage extends StatelessWidget {
   }
 
   Future<void> _updateTransaksi(BuildContext context) async {
-    // Menavigasi ke halaman update transaksi dengan membawa data transaksi
     Navigator.pushNamed(context, '/update', arguments: transaksi);
   }
 

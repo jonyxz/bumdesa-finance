@@ -6,6 +6,7 @@ import 'package:bumdesa_finance/pages/LoginPage.dart';
 import 'package:bumdesa_finance/pages/RegisterPage.dart';
 import 'package:bumdesa_finance/pages/SplashPage.dart';
 import 'package:bumdesa_finance/pages/AddFormPage.dart';
+import 'package:bumdesa_finance/pages/UpdateFormPage.dart';
 import 'package:bumdesa_finance/models/transaksi.dart';
 import 'package:bumdesa_finance/firebase_options.dart';
 
@@ -26,6 +27,14 @@ void main() async {
       '/add': (context) => AddFormPage(),
     },
     onGenerateRoute: (settings) {
+      if (settings.name == '/update') {
+        final args = settings.arguments as Transaksi;
+        return MaterialPageRoute(
+          builder: (context) {
+            return UpdateFormPage(transaksi: args);
+          },
+        );
+      }
       if (settings.name == '/detail') {
         final args = settings.arguments as Transaksi;
         return MaterialPageRoute(

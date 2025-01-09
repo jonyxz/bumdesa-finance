@@ -18,6 +18,13 @@ TextStyle headerStyle({int level = 1, bool dark = true}) {
       color: dark ? Colors.black : Colors.white);
 }
 
+TextStyle bodyStyle({bool dark = true}) {
+  return TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.normal,
+      color: dark ? Colors.black : Colors.white);
+}
+
 var buttonStyle = ElevatedButton.styleFrom(
     padding: const EdgeInsets.symmetric(vertical: 15),
     backgroundColor: primaryColor);
